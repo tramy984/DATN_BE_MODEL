@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+torch
+torch-geometric
+sentence-transformers
+pydantic
