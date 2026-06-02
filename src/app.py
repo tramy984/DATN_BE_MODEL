@@ -8,8 +8,11 @@ from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
 from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
-
-
+from cv_services.extractCV import extract_cv_profile
+import os
+import uuid
+import requests
+from pydantic import BaseModel
 # =========================
 # CONFIG
 # =========================
@@ -17,6 +20,10 @@ from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 BASE_DIR = Path(__file__).resolve().parent
+UPLOAD_DIR = BASE_DIR / "uploads"
+UPLOAD_DIR.mkdir(exist_ok=True)
+
+INDUSTRY_JSON_PATH = BASE_DIR / "cv_services" / "skills_by_industry.json"
 
 GRAPH_PATH = BASE_DIR / "gnn_services" / "graph_data" / "job_graphsage_graph.pt"
 MODEL_PATH = BASE_DIR / "gnn_services" / "graph_data" / "best_cv_job_link_prediction_graphsage.pt"
@@ -35,7 +42,8 @@ app = FastAPI(title="GNN Recommendation Service")
 class RecommendRequest(BaseModel):
     cv_text: str
     top_k: int = TOP_K_DEFAULT
-
+class ExtractCvUrlRequest(BaseModel):
+    file_url: str
 
 # =========================
 # HELPER
@@ -230,3 +238,74 @@ def recommend(req: RecommendRequest):
                 "data": []
             }
         )
+@app.post("/extract-cv-url")
+def extract_cv_url(req: ExtractCvUrlRequest):
+    temp_path = None
+
+    try:
+        if not req.file_url or not req.file_url.strip():
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "success": False,
+                    "message": "file_url không được để trống"
+                }
+            )
+
+        response = requests.get(
+            req.file_url,
+            timeout=30
+        )
+
+        if response.status_code != 200:
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "success": False,
+                    "message": "Không tải được file CV từ file_url",
+                    "status_code": response.status_code
+                }
+            )
+
+        temp_filename = f"{uuid.uuid4()}.pdf"
+        temp_path = UPLOAD_DIR / temp_filename
+
+        with open(temp_path, "wb") as f:
+            f.write(response.content)
+
+        result = extract_cv_profile(
+            pdf_path=str(temp_path),
+            industry_json_path=str(INDUSTRY_JSON_PATH)
+        )
+
+        return {
+            "success": True,
+            "data": {
+                "cv_text": result["cv_text"],
+                "industry": result["industry"],
+                "industry_score": result["industry_score"],
+                "matched_industry_skills": result["matched_industry_skills"],
+                "top_industries": result["top_industries"],
+                "skills": result["skills"],
+                "degree": result["degree"],
+                "location": result["location"],
+                "exp_min": result["exp_min"],
+                "exp_max": result["exp_max"]
+            }
+        }
+
+    except Exception as e:
+        traceback.print_exc()
+
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "message": "Lỗi extract CV từ file_url",
+                "error": str(e)
+            }
+        )
+
+    finally:
+        if temp_path and temp_path.exists():
+            os.remove(temp_path)
