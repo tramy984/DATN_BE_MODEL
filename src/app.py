@@ -18,9 +18,9 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 BASE_DIR = Path(__file__).resolve().parent
 
-GRAPH_PATH = BASE_DIR / "graph_data" / "job_graphsage_graph.pt"
-MODEL_PATH = BASE_DIR / "graph_data" / "best_cv_job_link_prediction_graphsage.pt"
-MAPPING_PATH = BASE_DIR / "graph_data" / "job_mapping.pt"
+GRAPH_PATH = BASE_DIR / "gnn_services" / "graph_data" / "job_graphsage_graph.pt"
+MODEL_PATH = BASE_DIR / "gnn_services" / "graph_data" / "best_cv_job_link_prediction_graphsage.pt"
+MAPPING_PATH = BASE_DIR / "gnn_services" / "graph_data" / "job_mapping.pt"
 
 TOP_K_DEFAULT = 10
 
