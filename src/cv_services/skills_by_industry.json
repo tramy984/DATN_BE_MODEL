@@ -1,0 +1,762 @@
+{
+  "Bán hàng / Kinh doanh": {
+    "base_skills": ["bán hàng", "kinh doanh", "chăm sóc khách hàng"],
+    "optional_skills": [
+      "crm",
+      "lead generation",
+      "account management",
+      "b2b",
+      "telesales",
+      "pipeline management",
+      "retail sales",
+      "xử lý khiếu nại",
+      "phân tích thị trường",
+      "tìm kiếm khách hàng",
+      "thẩm định hồ sơ",
+      "excel",
+      "word",
+      "powerpoint",
+      "thẩm định giá"
+    ]
+  },
+
+  "Bán lẻ / Bán sỉ": {
+    "base_skills": ["bán hàng", "chăm sóc khách hàng"],
+    "optional_skills": [
+      "crm",
+      "lead generation",
+      "account management",
+      "b2b",
+      "telesales",
+      "pipeline management",
+      "retail sales",
+      "xử lý khiếu nại",
+      "phân tích thị trường",
+      "tìm kiếm khách hàng",
+      "thẩm định hồ sơ",
+      "excel",
+      "word",
+      "powerpoint"
+    ]
+  },
+
+  "Bảo hiểm": {
+    "base_skills": ["chăm sóc khách hàng", "tư vấn bảo hiểm"],
+    "optional_skills": [
+      "telesales",
+      "crm",
+      "xử lý khiếu nại",
+      "phân tích thị trường",
+      "thẩm định hồ sơ",
+      "excel",
+      "word",
+      "powerpoint"
+    ]
+  },
+
+  "Bất động sản": {
+    "base_skills": ["tư vấn bất động sản", "kinh doanh", "bán hàng"],
+    "optional_skills": [
+      "crm",
+      "telesales",
+      "excel",
+      "phân tích đầu tư",
+      "thẩm định giá",
+      "luật đất đai"
+    ]
+  },
+
+  "Biên phiên dịch": {
+    "base_skills": ["biên dịch", "phiên dịch", "dịch thuật"],
+    "optional_skills": [
+      "dịch tài liệu",
+      "thông dịch",
+      "tiếng anh",
+      "tiếng trung",
+      "tiếng nhật",
+      "tiếng hàn",
+      "excel",
+      "word",
+      "powerpoint"
+    ]
+  },
+  "CNTT - Phần cứng / Mạng": {
+    "base_skills": ["quản trị mạng", "an ninh mạng", "firewall"],
+    "optional_skills": [
+      "an ninh thông tin",
+      "an toàn thông tin",
+      "cyber security",
+      "antivirus",
+      "linux",
+      "red team",
+      "blue team",
+      "wireshark",
+      "cloud",
+      "aws",
+      "azure",
+      "gcp",
+      "ids",
+      "ips",
+      "siem",
+      "soc",
+      "vpn",
+      "ssl",
+      "tls"
+    ]
+  },
+
+  "CNTT - Phần mềm": {
+    "base_skills": ["git", "python", "java", "javascript", "typescript"],
+    "optional_skills": [
+      "python",
+      "java",
+      "javascript",
+      "typescript",
+      "c++",
+      "c#",
+      "php",
+      "go",
+      "ruby",
+      "swift",
+      "kotlin",
+      "scala",
+
+      "html",
+      "css",
+      "react",
+      "angular",
+      "vue",
+
+      "nodejs",
+      "django",
+      "flask",
+      "spring",
+      "laravel",
+      "rest api",
+      "graphql",
+      "api",
+      "backend",
+      "frontend",
+      "fullstack",
+      "microservices",
+
+      "android",
+      "ios",
+      "flutter",
+
+      "tensorflow",
+      "pytorch",
+      "keras",
+      "pandas",
+      "numpy",
+      "machine learning",
+      "deep learning",
+      "nlp",
+      "computer vision",
+      "llm",
+      "wireframe",
+      "mysql",
+      "postgresql",
+      "mongodb",
+      "redis",
+      "sqlite",
+      "firebase",
+      "sql server",
+      "postman",
+      "docker",
+      "kubernetes",
+      "aws",
+      "cloud",
+      "devops",
+      "linux",
+
+      "testcase",
+      "automation testing",
+      "manual testing",
+      "performance testing",
+      "security testing",
+
+      "dashboard",
+      "ba",
+      "agile",
+      "scrum",
+
+      "blockchain",
+      "web3",
+      "smart contract",
+      "solidity",
+      "truffle",
+      "hardhat",
+      "selenium"
+    ]
+  },
+
+  "Công nghệ sinh học": {
+    "base_skills": ["sinh học phân tử", "sinh học tế bào", "vi sinh"],
+    "optional_skills": [
+      "nghiên cứu công thức",
+      "nuôi cấy tế bào",
+      "cấy mô",
+      "di truyền học",
+
+      "nuôi cấy vi sinh vật",
+      "kỹ thuật di truyền",
+      "phân tích mẫu",
+      "sử dụng thiết bị phòng thí nghiệm",
+
+      "hóa sinh",
+      "miễn dịch học"
+    ]
+  },
+
+  "Công nghệ thực phẩm / Dinh dưỡng": {
+    "base_skills": [
+      "kiểm nghiệm thực phẩm",
+      "qa",
+      "qc",
+      "phân tích dinh dưỡng"
+    ],
+    "optional_skills": ["gmp", "ssops", "haccp"]
+  },
+
+  "Cơ khí / Ô tô / Tự động hóa": {
+    "base_skills": ["cơ khí", "autocad", "plc", "tự động hóa"],
+    "optional_skills": [
+      "cnc",
+      "tiện",
+      "phay",
+      "cad/cam",
+      "solidworks",
+      "scada",
+      "robot",
+      "sensor",
+      "creo",
+      "catia",
+      "sửa chữa động cơ",
+      "bảo trì máy móc",
+      "hmi",
+      "servo"
+    ]
+  },
+
+  "Dệt may / Da giày / Thời trang": {
+    "base_skills": ["cắt vải", "cắt may", "may công nghiệp"],
+    "optional_skills": [
+      "thiết kế mẫu thời trang",
+      "xu hướng thời trang",
+      "thiết kế rập",
+      "thêu",
+      "vắt sổ",
+      "1 kim",
+      "2 kim",
+      "3 kim",
+      "4 kim"
+    ]
+  },
+
+  "Dịch vụ khách hàng": {
+    "base_skills": ["chăm sóc khách hàng", "tư vấn khách hàng"],
+    "optional_skills": [
+      "telesales",
+      "xử lý khiếu nại",
+      "trực hotline",
+      "call center",
+      "tiếp nhận cuộc gọi",
+      "tìm kiếm khách hàng"
+    ]
+  },
+
+  "Du lịch": {
+    "base_skills": ["điều hành tour", "hướng dẫn viên"],
+    "optional_skills": [
+      "lữ hành",
+      "bán tour",
+      "tiếng anh",
+      "tiếng trung",
+      "tiếng nhật",
+      "tiếng hàn"
+    ]
+  },
+
+  "Điện / Điện tử / Điện lạnh / Điện công nghiệp": {
+    "base_skills": ["điện công nghiệp", "điện dân dụng", "plc"],
+    "optional_skills": [
+      "scada",
+      "hmi",
+      "servo",
+      "inverter",
+      "autocad",
+      "bảo trì điện",
+      "sửa chữa điện",
+      "chiller",
+      "hvac",
+      "vận hành máy móc",
+      "eplan"
+    ]
+  },
+
+  "Giáo dục / Đào tạo": {
+    "base_skills": ["giảng dạy", "đứng lớp", "nghiệp vụ sư phạm"],
+    "optional_skills": [
+      "quản lý lớp học",
+      "thiết kế bài giảng",
+      "soạn giáo trình",
+      "soạn giáo án",
+      "thiết kế slide"
+    ]
+  },
+
+  "Hành chính / Thư ký": {
+    "base_skills": ["hành chính văn phòng", "kiểm tra hợp đồng"],
+    "optional_skills": [
+      "xử lý công văn",
+      "sắp xếp lịch làm việc",
+      "excel",
+      "word",
+      "powerpoint"
+    ]
+  },
+
+  "Hóa học": {
+    "base_skills": ["hóa phân tích", "hóa hữu cơ", "hóa vô cơ"],
+    "optional_skills": [
+      "hóa polymer",
+      "phân tích mẫu",
+      "sử dụng thiết bị phòng thí nghiệm",
+      "pif",
+      "gmp",
+      "ssops",
+      "haccp"
+    ]
+  },
+
+  "Kế toán / Kiểm toán": {
+    "base_skills": ["kế toán tổng hợp", "kiểm toán", "hạch toán"],
+    "optional_skills": [
+      "kế toán thuế",
+      "kế toán nội bộ",
+      "kế toán kho",
+      "kế toán công nợ",
+      "kế toán bán hàng",
+
+      "quyết toán thuế",
+      "kê khai thuế",
+      "quản lý hóa đơn",
+
+      "kiểm tra chứng từ",
+      "excel",
+      "word",
+      "powerpoint",
+      "erp",
+      "sap"
+    ]
+  },
+
+  "Kiến trúc": {
+    "base_skills": ["thiết kế kiến trúc", "autocad", "revit"],
+    "optional_skills": [
+      "3d modeling",
+      "layout design",
+      "sketchup",
+      "thiết kế 2d",
+      "phối cảnh"
+    ]
+  },
+
+  "Luật / Pháp lý": {
+    "base_skills": [
+      "quản lý hồ sơ pháp lý",
+      "xử lý khiếu nại",
+      "thủ tục pháp lý",
+      "tư vấn pháp lý"
+    ],
+    "optional_skills": [
+      "xử lý nợ",
+
+      "tố tụng",
+      "excel",
+      "word",
+      "powerpoint",
+
+      "luật đầu tư",
+      "luật doanh nghiệp",
+      "luật lao động",
+      "luật thương mại",
+      "luật đất đai",
+      "soạn thảo hợp đồng"
+    ]
+  },
+
+  "Mỹ thuật / Nghệ thuật / Thiết kế": {
+    "base_skills": ["photoshop", "thiết kế đồ họa"],
+    "optional_skills": [
+      "figma",
+      "after effects",
+      "motion graphic",
+      "3d modeling",
+      "animation",
+      "graphic design",
+      "ui/ux",
+      "typography",
+      "thiết kế giao diện",
+      "illustrator"
+    ]
+  },
+
+  "Ngân hàng": {
+    "base_skills": [
+      "giao dịch viên",
+      "excel",
+      "báo cáo tài chính",
+      "chăm sóc khách hàng"
+    ],
+    "optional_skills": [
+      "thẩm định tín dụng",
+      "huy động vốn",
+      "xử lý giao dịch",
+      "ngân hàng điện tử",
+      "word",
+      "crm",
+      "sap",
+      "erp",
+      "telesales"
+    ]
+  },
+
+  "Nhà hàng / Khách sạn": {
+    "base_skills": [
+      "phục vụ bàn",
+      "chăm sóc khách hàng",
+      "quản lý nhà hàng",
+      "quản lý khách sạn"
+    ],
+    "optional_skills": [
+      "quản lý ca",
+      "phụ bếp",
+      "quản lý phòng",
+      "quản lý bếp",
+      "pha chế",
+      "lễ tân"
+    ]
+  },
+
+  "Nhân sự": {
+    "base_skills": [
+      "tuyển dụng",
+      "quản lý nhân sự",
+      "quản lý hợp đồng lao động"
+    ],
+    "optional_skills": [
+      "xây dựng thương hiệu tuyển dụng",
+      "đánh giá ứng viên",
+      "c&b",
+      "payroll",
+      "excel",
+      "word",
+      "powerpoint",
+      "sap",
+      "erp",
+      "hrm"
+    ]
+  },
+
+  "Nội ngoại thất": {
+    "base_skills": ["autocad", "thiết kế nội thất"],
+    "optional_skills": [
+      "2d/3d design",
+      "phối cảnh",
+      "revit",
+      "sketchup",
+      "3ds max"
+    ]
+  },
+
+  "Quản lý chất lượng (QA/QC)": {
+    "base_skills": ["qa", "qc", "iso", "5s"],
+    "optional_skills": [
+      "six sigma",
+      "kaizen",
+      "audit",
+      "kiểm soát chất lượng",
+      "quản lý rủi ro",
+      "gmp",
+      "glp",
+      "sop",
+      "capa",
+      "fmea",
+      "excel",
+      "word",
+      "powerpoint"
+    ]
+  },
+
+  "Quản lý điều hành": {
+    "base_skills": ["quản lý vận hành", "quản lý nhân sự", "quản lý dự án"],
+    "optional_skills": [
+      "tối ưu hoạt động kỹ thuật",
+      "quản lý vận hành",
+      "quản lý sản xuất",
+      "quản lý kho",
+      "excel",
+      "erp",
+      "sap",
+      "crm"
+    ]
+  },
+
+  "Quảng cáo / Đối ngoại / Truyền Thông": {
+    "base_skills": ["pr", "quản lý sự kiện", "social media"],
+    "optional_skills": [
+      "digital marketing",
+      "marketing online",
+      "tiktok ads",
+      "copywriting",
+      "facebook ads",
+      "google ads",
+      "email marketing",
+      "branding",
+      "google analytics",
+      "performance marketing",
+      "media buying",
+      "storytelling",
+      "content creator",
+      "ecommerce",
+      "phân tích thị trường",
+      "nghiên cứu thị trường",
+      "chỉnh sửa video",
+      "chỉnh sửa ảnh",
+      "capcut"
+    ]
+  },
+
+  "Sản xuất / Vận hành sản xuất": {
+    "base_skills": ["quản lý vận hành", "quản lý vận hành", "quản lý sản xuất"],
+    "optional_skills": [
+      "tối ưu hoạt động kỹ thuật",
+      "six sigma",
+      "quản lý kho",
+      "excel",
+      "erp",
+      "sap",
+      "crm",
+      "iso",
+      "sop",
+      "lean",
+      "word",
+      "powerpoint"
+    ]
+  },
+
+  "Tài chính / Đầu tư": {
+    "base_skills": [
+      "excel",
+      "báo cáo tài chính",
+      "chăm sóc khách hàng",
+      "telesales"
+    ],
+    "optional_skills": [
+      "quản lý hóa đơn",
+      "kiểm tra chứng từ",
+      "thẩm định tín dụng",
+      "huy động vốn",
+      "xử lý giao dịch",
+      "ngân hàng điện tử",
+      "word",
+      "crm",
+      "sap",
+      "erp",
+      "hành chính văn phòng",
+      "kiểm tra hợp đồng"
+    ]
+  },
+
+  "Tiếp thị / Marketing": {
+    "base_skills": ["seo", "social media", "content marketing"],
+    "optional_skills": [
+      "digital marketing",
+      "marketing online",
+      "tiktok ads",
+      "copywriting",
+      "facebook ads",
+      "google ads",
+      "email marketing",
+      "branding",
+      "google analytics",
+      "performance marketing",
+      "media buying",
+      "storytelling",
+      "content creator",
+      "ecommerce",
+      "phân tích thị trường",
+      "nghiên cứu thị trường",
+      "chỉnh sửa video",
+      "chỉnh sửa ảnh",
+      "capcut",
+      "crm"
+    ]
+  },
+
+  "Tiếp thị trực tuyến": {
+    "base_skills": ["digital marketing", "seo", "sem", "social media"],
+    "optional_skills": [
+      "digital marketing",
+      "marketing online",
+      "tiktok ads",
+      "copywriting",
+      "facebook ads",
+      "google ads",
+      "email marketing",
+      "branding",
+      "google analytics",
+      "performance marketing",
+      "media buying",
+      "storytelling",
+      "content creator",
+      "ecommerce",
+      "phân tích thị trường",
+      "nghiên cứu thị trường",
+      "chỉnh sửa video",
+      "chỉnh sửa ảnh",
+      "capcut",
+      "crm",
+      "livestream"
+    ]
+  },
+
+  "Truyền hình / Báo chí / Biên tập": {
+    "base_skills": ["journalism", "social media", "biên tập"],
+    "optional_skills": [
+      "quay dựng",
+      "livestream",
+      "dẫn chương trình",
+      "pr",
+      "quản lý sự kiện",
+      "content writing",
+      "digital marketing",
+      "marketing online",
+      "tiktok ads",
+      "copywriting",
+      "facebook ads",
+      "google ads",
+      "email marketing",
+      "branding",
+      "google analytics",
+      "performance marketing",
+      "media buying",
+      "storytelling",
+      "content creator",
+      "chỉnh sửa video",
+      "chỉnh sửa ảnh",
+      "capcut"
+    ]
+  },
+
+  "Xây dựng": {
+    "base_skills": [
+      "quản lý công trình",
+      "giám sát công trình",
+      "bóc tách khối lượng",
+      "kỹ sư xây dựng"
+    ],
+    "optional_skills": [
+      "autocad",
+      "safe",
+      "bim",
+      "sap2000",
+      "etabs",
+      "revit",
+      "dự toán công trình",
+      "shop drawing",
+      "site engineer",
+      "3d modeling",
+      "layout design",
+      "sketchup",
+      "thiết kế 2d",
+      "phối cảnh"
+    ]
+  },
+
+  "Y tế / Chăm sóc sức khỏe / Thẩm mỹ / Làm đẹp": {
+    "base_skills": [],
+    "optional_skills": [
+      "chăm sóc bệnh nhân",
+      "điều dưỡng",
+      "dược lâm sàng",
+      "tiêm",
+      "truyền dịch",
+      "xét nghiệm",
+      "siêu âm",
+      "x quang",
+      "chăm sóc da",
+      "soi da",
+      "lấy mụn",
+      "phi kim",
+      "lăn kim",
+      "peel da",
+      "laser",
+      "tiêm filler",
+      "botox",
+      "mesotherapy",
+      "triệt lông",
+      "phun xăm",
+      "phun môi",
+      "phun mày",
+      "nối mi",
+      "massage",
+      "skin care"
+    ]
+  },
+
+  "Bảo trì / Sửa chữa": {
+    "base_skills": ["bảo trì điện", "sửa chữa điện", "sửa chữa máy móc"],
+    "optional_skills": [
+      "scada",
+      "hmi",
+      "servo",
+      "inverter",
+      "autocad",
+      "chiller",
+      "hvac",
+      "vận hành máy móc",
+      "eplan",
+      "cnc",
+      "tiện",
+      "phay",
+      "cad/cam",
+      "solidworks",
+      "robot",
+      "sensor",
+      "creo",
+      "catia",
+      "sửa chữa động cơ",
+      "bảo trì máy móc"
+    ]
+  },
+
+  "Thương mại điện tử": {
+    "base_skills": ["digital marketing", "seo", "sem", "social media"],
+    "optional_skills": [
+      "digital marketing",
+      "marketing online",
+      "tiktok ads",
+      "copywriting",
+      "facebook ads",
+      "google ads",
+      "email marketing",
+      "branding",
+      "google analytics",
+      "performance marketing",
+      "media buying",
+      "storytelling",
+      "content creator",
+      "ecommerce",
+      "phân tích thị trường",
+      "nghiên cứu thị trường",
+      "chỉnh sửa video",
+      "chỉnh sửa ảnh",
+      "capcut",
+      "crm",
+      "livestream"
+    ]
+  }
+}
