@@ -2,7 +2,7 @@ import traceback
 from pathlib import Path
 
 import torch
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
@@ -10,9 +10,9 @@ from sentence_transformers import SentenceTransformer
 from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
 from cv_services.extractCV import extract_cv_profile
 import os
+import shutil
 import uuid
 import requests
-from pydantic import BaseModel
 # =========================
 # CONFIG
 # =========================
@@ -74,6 +74,24 @@ def load_state_dict_safely(model, state_dict):
         model.load_state_dict(state_dict["model_state_dict"])
     else:
         model.load_state_dict(state_dict)
+
+
+def build_extract_cv_response(result):
+    return {
+        "success": True,
+        "data": {
+            "cv_text": result["cv_text"],
+            "industry": result["industry"],
+            "industry_score": result["industry_score"],
+            "matched_industry_skills": result["matched_industry_skills"],
+            "top_industries": result["top_industries"],
+            "skills": result["skills"],
+            "degree": result["degree"],
+            "location": result["location"],
+            "exp_min": result["exp_min"],
+            "exp_max": result["exp_max"]
+        }
+    }
 
 
 # =========================
@@ -278,21 +296,7 @@ def extract_cv_url(req: ExtractCvUrlRequest):
             industry_json_path=str(INDUSTRY_JSON_PATH)
         )
 
-        return {
-            "success": True,
-            "data": {
-                "cv_text": result["cv_text"],
-                "industry": result["industry"],
-                "industry_score": result["industry_score"],
-                "matched_industry_skills": result["matched_industry_skills"],
-                "top_industries": result["top_industries"],
-                "skills": result["skills"],
-                "degree": result["degree"],
-                "location": result["location"],
-                "exp_min": result["exp_min"],
-                "exp_max": result["exp_max"]
-            }
-        }
+        return build_extract_cv_response(result)
 
     except Exception as e:
         traceback.print_exc()
@@ -307,5 +311,53 @@ def extract_cv_url(req: ExtractCvUrlRequest):
         )
 
     finally:
+        if temp_path and temp_path.exists():
+            os.remove(temp_path)
+
+
+@app.post("/extract-cv-file")
+def extract_cv_file(file: UploadFile = File(...)):
+    temp_path = None
+
+    try:
+        filename = file.filename or ""
+
+        if not filename.lower().endswith(".pdf"):
+            return JSONResponse(
+                status_code=400,
+                content={
+                    "success": False,
+                    "message": "Chỉ hỗ trợ file PDF"
+                }
+            )
+
+        temp_filename = f"{uuid.uuid4()}.pdf"
+        temp_path = UPLOAD_DIR / temp_filename
+
+        with open(temp_path, "wb") as f:
+            shutil.copyfileobj(file.file, f)
+
+        result = extract_cv_profile(
+            pdf_path=str(temp_path),
+            industry_json_path=str(INDUSTRY_JSON_PATH)
+        )
+
+        return build_extract_cv_response(result)
+
+    except Exception as e:
+        traceback.print_exc()
+
+        return JSONResponse(
+            status_code=500,
+            content={
+                "success": False,
+                "message": "Lỗi extract CV từ file upload",
+                "error": str(e)
+            }
+        )
+
+    finally:
+        file.file.close()
+
         if temp_path and temp_path.exists():
             os.remove(temp_path)

@@ -4,3 +4,10 @@ torch
 torch-geometric
 sentence-transformers
 pydantic
+pdfplumber 
+unidecode
+requests
+python-multipart
+pandas
+tqdm
+python-multipart

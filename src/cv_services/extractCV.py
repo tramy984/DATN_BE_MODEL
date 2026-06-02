@@ -3,7 +3,7 @@ import json
 import pdfplumber
 from unidecode import unidecode
 
-from skill_extractor import SkillExtractor
+from cv_services.skill_extractor import SkillExtractor
 
 
 # =========================
