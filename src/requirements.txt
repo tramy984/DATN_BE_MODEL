@@ -1,14 +1,13 @@
 fastapi
 uvicorn
+gunicorn
 torch
 torch-geometric
 sentence-transformers
 pydantic
-pdfplumber 
+pdfplumber
 unidecode
 requests
 python-multipart
 pandas
 tqdm
-python-multipart
-
