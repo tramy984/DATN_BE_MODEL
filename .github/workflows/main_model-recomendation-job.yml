@@ -58,9 +58,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_421BA5D1A2634AB2A1B8CA4DB06C1DD9 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4A1EA2348A2D448E91B2B3B9ECD6D950 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_ADE6EB096AA94B68A1CD3DFCA39CF99B }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Configure Azure App Settings
         run: |
