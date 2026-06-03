@@ -9,8 +9,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
-from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
-from cv_services.extractCV import extract_cv_profile
+from src.gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
+from src.cv_services.extractCV import extract_cv_profile
 import requests
 # =========================
 # CONFIG
