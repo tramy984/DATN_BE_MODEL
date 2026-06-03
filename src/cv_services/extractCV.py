@@ -13,6 +13,9 @@ from cv_services.skill_extractor import SkillExtractor
 def extract_text_from_pdf(pdf_path):
     text = ""
 
+    if hasattr(pdf_path, "seek"):
+        pdf_path.seek(0)
+
     with pdfplumber.open(pdf_path) as pdf:
         for i, page in enumerate(pdf.pages):
             page_text = page.extract_text(

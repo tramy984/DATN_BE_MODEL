@@ -1,17 +1,16 @@
 import traceback
+from io import BytesIO
 from pathlib import Path
+from urllib.parse import urlparse
 
 import torch
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
 from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
 from cv_services.extractCV import extract_cv_profile
-import os
-import shutil
-import uuid
 import requests
 # =========================
 # CONFIG
@@ -20,8 +19,6 @@ import requests
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 BASE_DIR = Path(__file__).resolve().parent
-UPLOAD_DIR = BASE_DIR / "uploads"
-UPLOAD_DIR.mkdir(exist_ok=True)
 
 INDUSTRY_JSON_PATH = BASE_DIR / "cv_services" / "skills_by_industry.json"
 
@@ -92,6 +89,27 @@ def build_extract_cv_response(result):
             "exp_max": result["exp_max"]
         }
     }
+
+
+def download_pdf_to_memory(file_url: str) -> BytesIO:
+    parsed_url = urlparse(file_url)
+
+    if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
+        raise ValueError("file_url phải là URL HTTP/HTTPS hợp lệ")
+
+    response = requests.get(file_url, timeout=30)
+    response.raise_for_status()
+
+    pdf_bytes = response.content
+
+    if not pdf_bytes:
+        raise ValueError("PDF rỗng hoặc không tải được nội dung")
+
+    if not pdf_bytes.lstrip().startswith(b"%PDF"):
+        content_type = response.headers.get("content-type", "")
+        raise ValueError(f"URL không trả về nội dung PDF hợp lệ. content-type={content_type}")
+
+    return BytesIO(pdf_bytes)
 
 
 # =========================
@@ -245,6 +263,7 @@ def recommend(req: RecommendRequest):
             "data": results
         }
 
+
     except Exception as e:
         traceback.print_exc()
 
@@ -256,10 +275,11 @@ def recommend(req: RecommendRequest):
                 "data": []
             }
         )
-@app.post("/extract-cv-url")
-def extract_cv_url(req: ExtractCvUrlRequest):
-    temp_path = None
 
+
+@app.post("/extract-cv")
+@app.post("/extract-cv-url")
+def extract_cv(req: ExtractCvUrlRequest):
     try:
         if not req.file_url or not req.file_url.strip():
             return JSONResponse(
@@ -270,33 +290,26 @@ def extract_cv_url(req: ExtractCvUrlRequest):
                 }
             )
 
-        response = requests.get(
-            req.file_url,
-            timeout=30
-        )
-
-        if response.status_code != 200:
-            return JSONResponse(
-                status_code=400,
-                content={
-                    "success": False,
-                    "message": "Không tải được file CV từ file_url",
-                    "status_code": response.status_code
-                }
-            )
-
-        temp_filename = f"{uuid.uuid4()}.pdf"
-        temp_path = UPLOAD_DIR / temp_filename
-
-        with open(temp_path, "wb") as f:
-            f.write(response.content)
+        pdf_file = download_pdf_to_memory(req.file_url.strip())
 
         result = extract_cv_profile(
-            pdf_path=str(temp_path),
+            pdf_path=pdf_file,
             industry_json_path=str(INDUSTRY_JSON_PATH)
         )
 
         return build_extract_cv_response(result)
+
+    except (requests.RequestException, ValueError) as e:
+        traceback.print_exc()
+
+        return JSONResponse(
+            status_code=400,
+            content={
+                "success": False,
+                "message": "Không thể tải hoặc đọc PDF từ file_url",
+                "error": str(e)
+            }
+        )
 
     except Exception as e:
         traceback.print_exc()
@@ -309,55 +322,3 @@ def extract_cv_url(req: ExtractCvUrlRequest):
                 "error": str(e)
             }
         )
-
-    finally:
-        if temp_path and temp_path.exists():
-            os.remove(temp_path)
-
-
-@app.post("/extract-cv-file")
-def extract_cv_file(file: UploadFile = File(...)):
-    temp_path = None
-
-    try:
-        filename = file.filename or ""
-
-        if not filename.lower().endswith(".pdf"):
-            return JSONResponse(
-                status_code=400,
-                content={
-                    "success": False,
-                    "message": "Chỉ hỗ trợ file PDF"
-                }
-            )
-
-        temp_filename = f"{uuid.uuid4()}.pdf"
-        temp_path = UPLOAD_DIR / temp_filename
-
-        with open(temp_path, "wb") as f:
-            shutil.copyfileobj(file.file, f)
-
-        result = extract_cv_profile(
-            pdf_path=str(temp_path),
-            industry_json_path=str(INDUSTRY_JSON_PATH)
-        )
-
-        return build_extract_cv_response(result)
-
-    except Exception as e:
-        traceback.print_exc()
-
-        return JSONResponse(
-            status_code=500,
-            content={
-                "success": False,
-                "message": "Lỗi extract CV từ file upload",
-                "error": str(e)
-            }
-        )
-
-    finally:
-        file.file.close()
-
-        if temp_path and temp_path.exists():
-            os.remove(temp_path)
