@@ -1,0 +1,24 @@
+name: Sync to Hugging Face
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Push to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git clone https://user:$HF_TOKEN@huggingface.co/spaces/USERNAME/SPACE_NAME hf_space
+          rsync -av --exclude=.git ./ hf_space/
+          cd hf_space
+          git add .
+          git commit -m "Update Space" || true
+          git push
