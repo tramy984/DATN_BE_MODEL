@@ -11,6 +11,8 @@ from sentence_transformers import SentenceTransformer
 
 from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
 from cv_services.extractCV import extract_cv_profile
+from cv_services.skill_extractor import SkillExtractor
+import torch.nn.functional as F
 import requests
 import copy
 import threading
