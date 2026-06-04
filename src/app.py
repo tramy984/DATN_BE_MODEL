@@ -9,8 +9,8 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 
-from src.gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
-from src.cv_services.extractCV import extract_cv_profile
+from gnn_services.model import JobGraphSAGE, CVJobLinkPredictor
+from cv_services.extractCV import extract_cv_profile
 import requests
 # =========================
 # CONFIG
@@ -26,9 +26,6 @@ GRAPH_PATH = BASE_DIR / "gnn_services" / "graph_data" / "job_graphsage_graph.pt"
 MODEL_PATH = BASE_DIR / "gnn_services" / "graph_data" / "best_cv_job_link_prediction_graphsage.pt"
 MAPPING_PATH = BASE_DIR / "gnn_services" / "graph_data" / "job_mapping.pt"
 
-TOP_K_DEFAULT = 10
-
-
 # =========================
 # FASTAPI APP
 # =========================
@@ -38,7 +35,6 @@ app = FastAPI(title="GNN Recommendation Service")
 
 class RecommendRequest(BaseModel):
     cv_text: str
-    top_k: int = TOP_K_DEFAULT
 class ExtractCvUrlRequest(BaseModel):
     file_url: str
 
@@ -181,7 +177,8 @@ print("AI service ready!")
 # =========================
 
 @torch.no_grad()
-def recommend_jobs_by_cv_text(cv_text: str, top_k: int = 10):
+@torch.no_grad()
+def recommend_jobs_by_cv_text(cv_text: str):
     model.eval()
 
     cv_emb = text_model.encode(
@@ -202,32 +199,27 @@ def recommend_jobs_by_cv_text(cv_text: str, top_k: int = 10):
 
     scores = torch.matmul(cv_z, job_z.T).squeeze(0)
 
-    k = min(top_k, scores.shape[0])
-
-    top_scores, top_indices = torch.topk(scores, k=k)
+    # Lấy tất cả job, sắp xếp score giảm dần
+    sorted_scores, sorted_indices = torch.sort(scores, descending=True)
 
     results = []
 
     for job_idx, score in zip(
-        top_indices.cpu().tolist(),
-        top_scores.cpu().tolist()
+        sorted_indices.cpu().tolist(),
+        sorted_scores.cpu().tolist()
     ):
         job_idx = int(job_idx)
 
-        item = {
+        results.append({
             "job_id": job_idx,
             "score": float(score),
             "title": get_mapping_value(mapping, "job_titles", job_idx),
             "company": get_mapping_value(mapping, "job_companies", job_idx),
             "industry": get_mapping_value(mapping, "job_industries", job_idx),
             "skills": get_mapping_value(mapping, "job_skills", job_idx),
-        }
-
-        results.append(item)
+        })
 
     return results
-
-
 # =========================
 # ROUTES
 # =========================
@@ -254,15 +246,14 @@ def recommend(req: RecommendRequest):
             )
 
         results = recommend_jobs_by_cv_text(
-            cv_text=req.cv_text,
-            top_k=req.top_k
+            cv_text=req.cv_text
         )
 
         return {
             "success": True,
+            "total": len(results),
             "data": results
         }
-
 
     except Exception as e:
         traceback.print_exc()
@@ -275,7 +266,6 @@ def recommend(req: RecommendRequest):
                 "data": []
             }
         )
-
 
 @app.post("/extract-cv")
 @app.post("/extract-cv-url")
