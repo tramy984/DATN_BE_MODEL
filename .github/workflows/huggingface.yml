@@ -16,7 +16,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git clone https://user:$HF_TOKEN@huggingface.co/spaces/USERNAME/SPACE_NAME hf_space
+          git clone https://huggingface.co/spaces/my984/recommendation-job hf_space
           rsync -av --exclude=.git ./ hf_space/
           cd hf_space
           git add .
