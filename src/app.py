@@ -196,6 +196,25 @@ def dice_similarity(a, b):
     return 2 * len(a & b) / (len(a) + len(b))
 
 
+def compute_skill_overlap_score(cv_skills, job_skills):
+    cv_skills = remove_rule_skills(cv_skills)
+    job_skills = remove_rule_skills(job_skills)
+
+    if not cv_skills or not job_skills:
+        return 0.0, 0
+
+    shared_count = len(cv_skills & job_skills)
+
+    if shared_count == 0:
+        return 0.0, 0
+
+    cv_coverage = shared_count / len(cv_skills)
+    job_coverage = shared_count / len(job_skills)
+    overlap_score = 0.7 * cv_coverage + 0.3 * job_coverage
+
+    return max(0.0, min(1.0, overlap_score)), shared_count
+
+
 def extract_years_experience(skills):
     exp_list = []
 
@@ -757,9 +776,9 @@ print("AI service ready!")
 # =========================
 
 @torch.no_grad()
-@torch.no_grad()
 def recommend_jobs_by_cv_text(cv_text: str):
     model.eval()
+    cv_skills = remove_rule_skills(skill_extractor.extract_skills(cv_text))
 
     cv_emb = text_model.encode(
         [cv_text],
@@ -777,27 +796,49 @@ def recommend_jobs_by_cv_text(cv_text: str):
     cv_z = model.encode_cv(cv_emb)
     job_z = model.encode_job(graph)
 
-    scores = torch.matmul(cv_z, job_z.T).squeeze(0)
+    graphsage_raw_scores = torch.matmul(cv_z, job_z.T).squeeze(0)
+    graphsage_scores = ((graphsage_raw_scores + 1) / 2).clamp(0, 1)
 
     # Lấy tất cả job, sắp xếp score giảm dần
-    sorted_scores, sorted_indices = torch.sort(scores, descending=True)
-
     results = []
 
-    for job_idx, score in zip(
-        sorted_indices.cpu().tolist(),
-        sorted_scores.cpu().tolist()
-    ):
+    for job_idx, graphsage_score in enumerate(graphsage_scores.cpu().tolist()):
         job_idx = int(job_idx)
+        job_skills = get_mapping_value(mapping, "job_real_skills", job_idx)
+
+        if job_skills is None:
+            job_skills = get_mapping_value(mapping, "job_skills", job_idx)
+
+        overlap_score, shared_skill_count = compute_skill_overlap_score(
+            cv_skills=cv_skills,
+            job_skills=job_skills or []
+        )
+
+        final_score = 0.6 * overlap_score + 0.4 * float(graphsage_score)
 
         results.append({
             "job_id": job_idx,
-            "score": float(score),
+            "score": round(final_score, 4),
+            "final_score": round(final_score, 4),
+            "overlap_skill_score": round(overlap_score, 4),
+            "graphsage_score": round(float(graphsage_score), 4),
+            "graphsage_raw_score": round(float(graphsage_raw_scores[job_idx].item()), 4),
+            "shared_skill_count": shared_skill_count,
             "title": get_mapping_value(mapping, "job_titles", job_idx),
             "company": get_mapping_value(mapping, "job_companies", job_idx),
             "industry": get_mapping_value(mapping, "job_industries", job_idx),
             "skills": get_mapping_value(mapping, "job_skills", job_idx),
         })
+
+    results = sorted(
+        results,
+        key=lambda item: (
+            item["final_score"],
+            item["overlap_skill_score"],
+            item["graphsage_score"]
+        ),
+        reverse=True
+    )
 
     return results
 # =========================
