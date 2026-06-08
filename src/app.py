@@ -819,11 +819,6 @@ def recommend_jobs_by_cv_text(cv_text: str):
         results.append({
             "job_id": job_idx,
             "score": round(final_score, 4),
-            "final_score": round(final_score, 4),
-            "overlap_skill_score": round(overlap_score, 4),
-            "graphsage_score": round(float(graphsage_score), 4),
-            "graphsage_raw_score": round(float(graphsage_raw_scores[job_idx].item()), 4),
-            "shared_skill_count": shared_skill_count,
             "title": get_mapping_value(mapping, "job_titles", job_idx),
             "company": get_mapping_value(mapping, "job_companies", job_idx),
             "industry": get_mapping_value(mapping, "job_industries", job_idx),
